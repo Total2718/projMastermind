@@ -10,15 +10,18 @@ def play()
     name = gets.chomp
     
     type = nil
+    Display.choose_game_mode(name)
     while type != "Codebreaker" && type != "Codemaker"
-        Display.choose_game_mode(name)
+        puts "\n\nPlease type in either 'Codebreaker' or 'Codemaker'."
+        print "\nGame mode:"
         type = gets.chomp
-        puts type
+       
     end
-    puts type
+    
     
    
     game = Game.new(name, type)
+    game.start_new_game
     
     
 

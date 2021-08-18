@@ -11,7 +11,7 @@ class Game
     def start_new_game()
         if @game_type == "Codebreaker"
             @secret_code = ["#{rand(1..5)}", "#{rand(1..5)}", "#{rand(1..5)}", "#{rand(1..5)}"]
-            @display.explain_codebreaker
+            play_game
             
             
             
@@ -29,9 +29,15 @@ class Game
     def play_game
         game_over = false
         round_counter = 0
+        @display.explain_codebreaker
         
         while game_over == false
             round_counter += 1
+            @display.prompt_color_choices
+            @display.show_color_choices
+
+            
+            
 
 
 
@@ -45,6 +51,7 @@ class Game
           4.times do
             n = 0
             while ["1", "2", "3", "4", "5", "6", "7", "8"].any?{|choice|  choice == player_guess[n]} == false
+                @display.show_color_choices
               puts "Please choose a valid option
                for slot number #{n + 1} ."
                player_guess[n] = gets.chomp
