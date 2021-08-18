@@ -8,13 +8,14 @@ currently_playing = true
 def play()
     puts "Please enter your name."
     name = gets.chomp
-    display = Display.new(name)
+    
     type = nil
     while type != "Codebreaker" && type != "Codemaker"
-        display.choose_game_mode
+        Display.choose_game_mode(name)
         type = gets.chomp
         puts type
     end
+    puts type
     
    
     game = Game.new(name, type)
