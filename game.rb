@@ -11,7 +11,7 @@ class Game
     def start_new_game()
         if @game_type == "Codebreaker"
             @secret_code = ["#{rand(1..5)}", "#{rand(1..5)}", "#{rand(1..5)}", "#{rand(1..5)}"]
-            play_game
+            play_codebreaker
             
             
             
@@ -26,8 +26,9 @@ class Game
         
     end
 
-    def play_game
-        game_over = false
+    def play_codebreaker
+        @game_over = false
+        @previous_guesses = []
         round_counter = 0
         instruction_skip = nil
         while instruction_skip != "Yes" && instruction_skip != "No"
@@ -39,9 +40,12 @@ class Game
         @display.explain_codebreaker
         end
         
-        while game_over == false
+        while @game_over == false
             round_counter += 1
+            puts @secret_code
+            @display.give_previous_guesses(@previous_guesses)
             @player_guess = take_player_guess
+            check_game_over
             
             
 
@@ -76,6 +80,41 @@ class Game
     end
 
 
+    def check_game_over
+        secret_code_copy = @secret_code.clone
+        order_match = 0
+        
+        @player_guess.each_with_index do |color, index|
+
+            
+
+            secret_code_copy.each_with_index do |secret_color, index|
+                if color ==  secret_color
+                    secret_code_copy.delete_at(index)
+                    puts "\n"
+                    break
+                end
+            end
+
+            if @player_guess[index] == @secret_code[index]
+                order_match +=1
+            end
+
+             
+            
+        end
+        colors_matched = 4 - secret_code_copy.length
+        previous_guess_info = @player_guess.join(" ") + "\t\#{colors_matched}" + 
+            " correct colors  and #{order_match} in the correct order."
+        
+
+        
+        @previous_guesses.append(previous_guess_info)
+        @display.enter_to_continue
+        
+
+        
+    end
 
     
 

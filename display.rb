@@ -85,11 +85,16 @@ class Display
             puts "\n \n Press enter to continue"
             continue = gets
         end
-        def player_guess_prompt
-
-
-
-
+        
+        def give_previous_guesses(previous_guesses)
+            if previous_guesses.length > 0
+                puts "\nPrevious Guesses:"
+                previous_guesses.each do
+                    |guess|
+                    puts guess
+                end
+            end
         end
+
 
 end
