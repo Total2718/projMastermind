@@ -29,18 +29,27 @@ class Game
     def play_game
         game_over = false
         round_counter = 0
+        instruction_skip = nil
+        while instruction_skip != "Yes" && instruction_skip != "No"
+        puts "\n\tWould you like to skip the instructions? 
+        Please enter 'Yes' or 'No'."
+        instruction_skip = gets.chomp
+        end
+        if instruction_skip != "Yes"
         @display.explain_codebreaker
+        end
         
         while game_over == false
             round_counter += 1
-            @display.prompt_color_choices
-            @display.show_color_choices
+            @player_guess = take_player_guess
+            
+            
 
             
             
 
 
-
+            
         end
     end
 
@@ -48,12 +57,14 @@ class Game
         player_guess = Array.new(4, 0)
         guess_chosen = false
         while guess_chosen == false
-          4.times do
             n = 0
+          4.times do
+            
             while ["1", "2", "3", "4", "5", "6", "7", "8"].any?{|choice|  choice == player_guess[n]} == false
+                @display.prompt_color_choices
                 @display.show_color_choices
-              puts "Please choose a valid option
-               for slot number #{n + 1} ."
+              puts "Please choose a valid option for slot number #{n + 1} of the secret code."
+              print "Number:"
                player_guess[n] = gets.chomp
             
            end
