@@ -6,7 +6,7 @@ class Display
         @colors = [
                 "blue",
                 "red", 
-                "green",
+                "green", 
                 "yellow",
                 "orange",
                 "purple",
@@ -33,7 +33,7 @@ class Display
                 
         def explain_codebreaker()
             puts "\t\tAs the codebreaker, you will attempt to guess the code. 
-            You will have a maximum of 8 attempts.The code consists of 4 colors 
+            You will have a maximum of 10 attempts.The code consists of 4 colors 
             in a particular order. Not only do you need to guess the colors, but
             you also must guess the correct order as well. When prompted, you 
             will enter a single number from 1 to 8. You will be prompted four 
@@ -55,7 +55,7 @@ class Display
             in the correct place."
             enter_to_continue
             
-            puts "\n\t\tYou will have 8 attempts to guess the secret color code. 
+            puts "\n\t\tYou will have 10 attempts to guess the secret color code. 
             Within each attempt you will be prompted 4 times to enter a single
             digit number. The number you enter will correspond to one of the 
             colors listed in the example. Don't forget the order of your color 
@@ -76,7 +76,22 @@ class Display
 
         def show_color_choices
            
-         @colors.each_with_index { |color, index| puts "\n\t\t\t#{color}:#{index + 1}"}
+        
+            print "\n\t"
+         for n in 0..3 
+            
+            print "#{@colors[n]}: #{n + 1}      "
+            
+         end
+         puts "\n"
+         print "\t"
+         for n in 4..7 
+            
+            print "#{@colors[n]}: #{n + 1}    "
+            
+         end
+
+         
             
 
         end
@@ -97,4 +112,13 @@ class Display
         end
 
 
+        def proclaim_winner(name)
+            puts "Congratulations #{name}!!! You've correctly guessed the secret"\
+            " code."
+        end
+
+        def proclaim_loser(name, code)
+            puts "#{@name}, you have attempted to break the code 10 times and"\
+            " have been unsuccessful. The secret code was #{code}"
+        end
 end

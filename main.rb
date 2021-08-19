@@ -30,5 +30,16 @@ end
 
 while currently_playing == true
     play
-    
+
+    puts "Would you like to play again?"
+    play_again = nil
+    while play_again != 'Yes' && play_again != 'No'
+    puts "Please enter 'Yes' to play another game or 'No' to stop the program."
+    play_again = gets.chomp
+    end
+
+    if play_again == 'No'
+        currently_playing = false
+        puts "Have a great day!"
+    end
 end
