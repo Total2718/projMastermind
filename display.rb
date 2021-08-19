@@ -121,4 +121,13 @@ class Display
             puts "#{@name}, you have attempted to break the code 10 times and"\
             " have been unsuccessful. The secret code was #{code}"
         end
+
+
+        #codemaker methods below
+
+        def explain_codebreaker
+            puts "#{@name}, you are the codebreaker. You must come up with a 
+            code for the computer to try to crack. When prompted, you will enter
+            the "
+        end
 end

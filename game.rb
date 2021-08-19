@@ -21,16 +21,20 @@ class Game
 
         elsif @game_type == "Codemaker"
             @secret_code = gets.chomp
+            play_codemaker
         end
 
         
     end
 
     def play_codebreaker
+        #a flag for the while loop to keep playing
         @game_over = false
+        #stores for player reference after the first round
         @previous_guesses = []
-        @round_counter = 0
         
+        @round_counter = 0
+        #this gives the player the option to skip past the tutorial
         instruction_skip = nil
         while instruction_skip != "Yes" && instruction_skip != "No"
         puts "\n\tWould you like to skip the instructions? 
@@ -63,6 +67,7 @@ class Game
         end
     end
 
+    
     def take_player_guess
         player_guess = Array.new(4, 0)
         guess_chosen = false
@@ -75,7 +80,15 @@ class Game
                 @display.show_color_choices
               puts "\n\nPlease choose a valid option for slot number #{n + 1} of the secret code."
               print "Slot #{n + 1}:"
+              if @game_type == "Codebreaker"
                player_guess[n] = gets.chomp
+              elsif @game_type == "Codemaker"
+                    if final_comp_guess[n] = @secret_code[n]
+                        player_guess[n] = @final_comp_guess[n]
+                    elsif
+                        player_guess[n] = "#{rand(1..8)}"
+                    end
+              end
             
            end
            n += 1
@@ -106,6 +119,9 @@ class Game
 
             if @player_guess[index] == @secret_code[index]
                 order_match +=1
+                if @game_type == "Codemaker"
+                    
+                end
             end
 
              
@@ -130,6 +146,27 @@ class Game
             @display.proclaim_loser(@name, code)
 
         end
+    end
+
+    def play_codemaker
+        @game_over = false
+        previous_guesses = []
+        @round_counter = 0
+        @final_comp_guess = Array.new(4, nil)
+        while @game_over == false
+            @round_counter += 1
+
+            puts "\n\n\t\t--------Round #{@round_counter}---------\n\n"
+            @display.give_previous_guesses(@previous_guesses)
+            
+            @player_guess = take_player_guess
+            
+            
+            check_game_over(@round_counter)
+
+
+        end
+
     end
 
     
