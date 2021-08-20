@@ -112,22 +112,34 @@ class Display
         end
 
 
-        def proclaim_winner(name)
+        def proclaim_winner(name, game_type)
+            if game_type == "Codebreaker"
             puts "Congratulations #{name}!!! You've correctly guessed the secret"\
             " code."
+            elsif game_type == "Codemaker"
+                puts "It looks like the computer was able to break your secret"\
+            " code. You're not as crafty a codemaker after all."
+
+            end
         end
 
-        def proclaim_loser(name, code)
-            puts "#{@name}, you have attempted to break the code 10 times and"\
+        def proclaim_loser(name, code, game_type)
+            if game_type == "Codebreaker"
+            puts "#{name}, you have attempted to break the code 10 times and"\
             " have been unsuccessful. The secret code was #{code}"
+            elsif game_type == "Codemaker"
+            puts "Congratulations, the computer was unable to crack your "\
+                "code. It looks like you're quite the crafty codemaker."
+            end
         end
 
 
         #codemaker methods below
 
-        def explain_codebreaker
-            puts "#{@name}, you are the codebreaker. You must come up with a 
+        def explain_codemaker
+            puts "      #{@name}, you are the codemaker. You must come up with a 
             code for the computer to try to crack. When prompted, you will enter
-            the "
+            the number corresponding to the colors one at a time."
+            
         end
 end

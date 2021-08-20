@@ -9,6 +9,7 @@ class Game
     end
 
     def start_new_game()
+        #starts the codebreaker side of the game
         if @game_type == "Codebreaker"
             @secret_code = ["#{rand(1..8)}", "#{rand(1..8)}", "#{rand(1..8)}", "#{rand(1..8)}"]
             play_codebreaker
@@ -18,9 +19,9 @@ class Game
             
 
 
-
+            #starts the codemaker side of the game
         elsif @game_type == "Codemaker"
-            @secret_code = gets.chomp
+            
             play_codemaker
         end
 
@@ -45,6 +46,8 @@ class Game
         @display.explain_codebreaker
         end
         
+        #while loop that ends after a set number of rounds is reached or the 
+        #code is cracked
         while @game_over == false
             @round_counter += 1
             
@@ -67,33 +70,48 @@ class Game
         end
     end
 
-    
+    #method for taking the input of the guess, whether it be computer or human
     def take_player_guess
-        player_guess = Array.new(4, 0)
+        
+        player_guess = Array.new(4, nil)
         guess_chosen = false
-        while guess_chosen == false
+        
+        while guess_chosen == false 
+            
             n = 0
           4.times do
             
+            #a check to make sure the input is within 1 - 8
             while ["1", "2", "3", "4", "5", "6", "7", "8"].any?{|choice|  choice == player_guess[n]} == false
+                if @game_type == "Codebreaker"
                 @display.prompt_color_choices
                 @display.show_color_choices
-              puts "\n\nPlease choose a valid option for slot number #{n + 1} of the secret code."
-              print "Slot #{n + 1}:"
+                end
+                if @game_type == "Codebreaker"
+                puts "\n\nPlease choose a valid option for slot number #{n + 1} of the secret code."
+                print "Slot #{n + 1}:"
+                end
+              #this is refactored code for the codemaker aspect
               if @game_type == "Codebreaker"
                player_guess[n] = gets.chomp
               elsif @game_type == "Codemaker"
-                    if final_comp_guess[n] = @secret_code[n]
+                
+                    if @final_comp_guess[n] == @secret_code[n]
                         player_guess[n] = @final_comp_guess[n]
                     elsif
                         player_guess[n] = "#{rand(1..8)}"
                     end
-              end
-            
+                end
            end
            n += 1
+           
+
           end
+          
+         
+
           guess_chosen = true
+          
         end
         player_guess
     end
@@ -105,22 +123,23 @@ class Game
         order_match = 0
 
         
-        @player_guess.each_with_index do |color, index|
+        @player_guess.each_with_index do |color, index1|
 
             
 
-            secret_code_copy.each_with_index do |secret_color, index|
+            secret_code_copy.each_with_index do |secret_color, index2|
                 if color ==  secret_color
-                    secret_code_copy.delete_at(index)
+                    secret_code_copy.delete_at(index2)
                     puts "\n"
+
                     break
                 end
             end
 
-            if @player_guess[index] == @secret_code[index]
+            if @player_guess[index1] == @secret_code[index1]
                 order_match +=1
                 if @game_type == "Codemaker"
-                    
+                    @final_comp_guess[index1] = @player_guess[index1]
                 end
             end
 
@@ -139,20 +158,26 @@ class Game
         
         if colors_matched == 4 && order_match == 4
             @game_over = true
-            @display.proclaim_winner(@name)
+            @display.proclaim_winner(@name, @game_type)
+           
+            
         elsif round == 10
             code = @secret_code.join("")
             @game_over = true 
-            @display.proclaim_loser(@name, code)
+            @display.proclaim_loser(@name, code, @game_type)
 
         end
     end
 
     def play_codemaker
+        @display.explain_codemaker
+        @secret_code = request_player_code
+        
+        @display.enter_to_continue
         @game_over = false
-        previous_guesses = []
+        @previous_guesses = []
         @round_counter = 0
-        @final_comp_guess = Array.new(4, nil)
+        @final_comp_guess = Array.new(4, "9")
         while @game_over == false
             @round_counter += 1
 
@@ -167,6 +192,28 @@ class Game
 
         end
 
+    end
+
+    def request_player_code
+        secret_code = []
+        code_given = false
+        while code_given == false
+            n = 0
+            @display.prompt_color_choices
+            @display.show_color_choices
+          4.times do
+            
+            while ["1", "2", "3", "4", "5", "6", "7", "8"].any?{|choice|  choice == secret_code[n]} == false
+                
+              puts "\n\nPlease choose a valid option for slot number #{n + 1} of the secret code."
+              print "Slot #{n + 1}:"
+              secret_code[n] = gets.chomp
+           end
+           n += 1
+          end
+          code_given = true
+        end
+        secret_code
     end
 
     

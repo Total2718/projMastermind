@@ -4,6 +4,7 @@
 require_relative "game.rb" 
 require_relative "display.rb"
 
+#a flag for if the player decides to stop playing after playing one game
 currently_playing = true
 def play()
     puts "Please enter your name."
@@ -11,6 +12,7 @@ def play()
     
     type = nil
     Display.choose_game_mode(name)
+    #makes sure the input is one of the two options
     while type != "Codebreaker" && type != "Codemaker"
         puts "\n\nPlease type in either 'Codebreaker' or 'Codemaker'."
         print "\nGame mode:"
